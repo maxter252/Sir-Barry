@@ -1,0 +1,7 @@
+deploy.sh
+endDev.sh
+startDev.sh
+.env.yaml
+.env
+package-lock.json
+node_modules/

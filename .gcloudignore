@@ -1,0 +1,14 @@
+node_modules/
+.gitignore
+*old*
+*-lock.json
+README.md
+deploy.sh
+.git*
+util_scripts/*
+.gcloudignore
+test
+.env.yaml
+startDev.sh
+endDev.sh
+.env
