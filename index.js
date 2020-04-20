@@ -61,20 +61,20 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     let locationName = request.body.queryResult.parameters.Locations
     let stationName;
     console.log("locationName ", request.body.queryResult.parameters.Locations);
-    if ( locationName == "Work") {
-      stationName = "Jewry Street, Aldgate"; //"Crosswall, Tower"; 
+    if ( locationName == "City") {
+      stationName = process.env.OPTIONAL_BIKE_RACK_2; //"Crosswall, Tower"; 
       rackInfo = await santanderCycles.howManyBikes(stationName);
       agent.add(rackInfo.Bikes + ' bikes are awaiting you sire, and ' + rackInfo.Spaces + ' spaces');
     } else if (locationName == "Home") {
-      stationName = "Cranmer Road, Stockwell"; 
+      stationName = process.env.HOME_BIKE_RACK; 
       rackInfo = await santanderCycles.howManyBikes(stationName);
       agent.add(rackInfo.Bikes + ' bikes are awaiting you sire, and ' + rackInfo.Spaces + ' spaces');
-    } else if (locationName == "Sainsburys") {
-      stationName = "South Lambeth Road, Vauxhall"; 
+    } else if (locationName == "Work") {
+      stationName = process.env.WORK_BIKE_RACK; 
       rackInfo = await santanderCycles.howManyBikes(stationName);
       agent.add(rackInfo.Bikes + ' bikes are awaiting you sire, and ' + rackInfo.Spaces + ' spaces');
-    } else if (locationName == "Titanium") {
-      stationName = "Twig Folly Bridge, Mile End"; 
+    } else if (locationName == "Mile-End") {
+      stationName = process.env.OPTIONAL_BIKE_RACK_1; 
       rackInfo = await santanderCycles.howManyBikes(stationName);
       agent.add(rackInfo.Bikes + ' bikes are awaiting you sire, and ' + rackInfo.Spaces + ' spaces');
     } else {
