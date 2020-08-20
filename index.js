@@ -43,13 +43,19 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
   function addToDoistCard(agent) {
     console.log("add TOSOIST task response triggered");
     console.log("sys.any = " + request.body.queryResult.parameters.any);
-    if (request.body.queryResult.parameters.Priority) { 
-      toDoist.addTask(request.body.queryResult.parameters.any[0], request.body.queryResult.parameters.Locations,request.body.queryResult.parameters.Priority);
-    } else if (request.body.queryResult.parameters.Locations) {
+    const params = request.body.queryResult.parameters;
+    if (params.any & params.Locations & params.Priority & params.dateTime) { 
+      toDoist.addTask({taskTitle: params.any[0], projectName: params.Locations, priority: params.Priority, due: params.dateTime } );
+    } else if (params.any & params.Locations & params.Priority) { 
+      toDoist.addTask({taskTitle: params.any[0], projectName: params.Locations, priority: params.Priority});
+    } else if (params.any[0] & params.dateTime) {
+      console.log("adding reminder")
+      toDoist.addTask({taskTitle: params.any[0], due: params.dateTime});
+    } else if (params.any[0] & params.Locations) {
       console.log("no priority specified")
-      toDoist.addTask(request.body.queryResult.parameters.any[0], request.body.queryResult.parameters.Locations);
+      toDoist.addTask({taskTitle: params.any[0], projectName: params.Locations});
     } else {
-      toDoist.addTask(request.body.queryResult.parameters.any[0]);
+      toDoist.addTask({taskTitle: params.any[0]});
     }
     
     agent.add(`Another excelent plan sir, i have added `+ request.body.queryResult.parameters.any + ' to your to do list');

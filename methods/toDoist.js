@@ -6,7 +6,7 @@ var headers = {
     'Authorization': process.env.TODOIST_API_TOKEN
 };
 
-function addTask(taskTitle = "new card with no title", projectName = "Home", priority = 1, due = "tomorrow") {
+function addTask({taskTitle = "new card with no title", projectName = "Home", priority = 1, due = "tomorrow"}={}) {
     var projectID = Number(process.env.TODOIST_PERSONAL_PROJECT_ID) // project id of personal (project)
     // To DO implemnt more robust method of call to api and seach for project id
     if (projectName == "Work") {
