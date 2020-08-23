@@ -42,15 +42,15 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
   function addToDoistCard(agent) {
     console.log("add TOSOIST task response triggered");
-    console.log("sys.any = " + request.body.queryResult.parameters.any);
+    console.log("sys.any = " + JSON.stringify(request.body.queryResult.parameters));
     const params = request.body.queryResult.parameters;
-    if (params.any & params.Locations & params.Priority & params.dateTime) { 
-      toDoist.addTask({taskTitle: params.any[0], projectName: params.Locations, priority: params.Priority, due: params.dateTime } );
+    if (params.any & params.Locations & params.Priority & params["date-time"]) { 
+      toDoist.addTask({taskTitle: params.any[0], projectName: params.Locations, priority: params.Priority, due: params["date-time"]["date_time"] } );
     } else if (params.any & params.Locations & params.Priority) { 
       toDoist.addTask({taskTitle: params.any[0], projectName: params.Locations, priority: params.Priority});
-    } else if (params.any[0] & params.dateTime) {
+    } else if (params.any[0] & params["date-time"]) {
       console.log("adding reminder")
-      toDoist.addTask({taskTitle: params.any[0], due: params.dateTime});
+      toDoist.addTask({taskTitle: params.any[0], due: params["date-time"]["date_time"]});
     } else if (params.any[0] & params.Locations) {
       console.log("no priority specified")
       toDoist.addTask({taskTitle: params.any[0], projectName: params.Locations});
